@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} Index Page {% endblock %}
+{% block scripts %}
+	{{ super() }}
+	{{ moment.include_moment() }}
+{% endblock %}
+
+{% block content %} 
+	<h1>Index Page</h1><br>
+
+	{% if name %}
+		{% if known %}
+		<p>Welcome back, {{ name }}</p>
+		{% else %}
+		<p>Nice to meet you, {{ name }}</p>
+		{% endif %}
+	{% endif %}
+
+	<p>{{ current_time }}</p>
+	<p>The current time is {{ moment(current_time).format("LLL") }}</p>
+	<p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
+
+	{{ wtf.quick_form(form) }}
+{% endblock %}
