@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Confirm Your Account {% endblock %}
+
+{% block content %}
+<h1>Hello,{{ current_user.username }}</h1><br>
+
+<h2>
+	You have not confired your account yet.
+</h2><br>
+
+<p>
+	Before you can access this site you need to confirm you account.Check you inbox,you should have received an email with a confirmation link.
+</p><br>
+
+<p>
+Need another confirmation email?<a href="{{ url_for('auth.confirm') }}">Click here</a>
+</p>
+{% endblock %}
