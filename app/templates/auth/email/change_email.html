@@ -1,0 +1,14 @@
+Dear {% if current_user %} {{ current_user.username }} {% else %} Stranger {% endif %}<br>
+
+
+Welcome to Flasky!<br>
+
+To confirm your new email address, please click on the following link:<br>
+
+{{ url_for('auth.confirm_of_change_email', token=token, _external=True) }}
+
+Sincerely,
+
+The Flasky Team
+
+Note: replies to this email address are not monitered.

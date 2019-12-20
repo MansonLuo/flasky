@@ -3,9 +3,10 @@ from . import mail
 from flask import render_template
 from . import create_app
 
-app = create_app('default')
 
 def send_email(to, subject, template, **kwargs):
+    app = create_app('default')
+    app.config['SERVER_NAME'] = 'example.com'
     msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
             sender=app.config['FLASKY_MAIL_SENDER'], 
             recipients=[to])
@@ -13,7 +14,8 @@ def send_email(to, subject, template, **kwargs):
     msg.html = render_template(template + '.html', **kwargs)
 
     try:
-        mail.send(msg)
+        with app.app_context():
+            mail.send(msg)
     except:
         return False
 

@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
+    new_email = db.Column(db.String(64), unique=True, index=True)
 
     @property
     def password(self):
@@ -50,6 +51,9 @@ class User(UserMixin, db.Model):
         if data.get('confirm') != self.id:
             return False
         self.confirmed = True
+        if self.new_email:
+            if self.email != self.new_email:
+                self.email = self.new_email
         db.session.add(self)
 
         return True

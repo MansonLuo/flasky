@@ -1,4 +1,5 @@
-Dear {{ user.username }}
+Dear {% if current_user %} {{ current_user.username }} {% else %} Stranger {% endif %}
+
 
 Welcome to Flasky!
 

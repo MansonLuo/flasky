@@ -4,6 +4,7 @@
 {% block title %}Flasky - Home{% endblock %}
 
 {% block content %}
+	{{ super() }}
 	Hello, 
 	{% if current_user.is_authenticated %}
 		{{ current_user.username }}

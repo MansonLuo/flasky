@@ -3,6 +3,7 @@
 {% block title %} Confirm Your Account {% endblock %}
 
 {% block content %}
+{{ super() }}
 <h1>Hello,{{ current_user.username }}</h1><br>
 
 <h2>
@@ -14,6 +15,6 @@
 </p><br>
 
 <p>
-Need another confirmation email?<a href="{{ url_for('auth.confirm') }}">Click here</a>
+Need another confirmation email?<a href="{{ url_for('auth.confirm', token=current_user.generate_confirmation_token()) }}">Click here</a>
 </p>
 {% endblock %}
