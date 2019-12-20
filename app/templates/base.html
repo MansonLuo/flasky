@@ -24,6 +24,15 @@
 			{% endif %}
 
 			{% if current_user.is_authenticated %}
+
+			{% if current_user.is_administrator() %}
+					<li><a href="{{ url_for('main.for_admins_only') }}">Administrator</a></li>
+			{% else %}
+				{% if current_user.can(Permission.MODERATE) %} 
+				<li><a href="{{ url_for('main.for_moderators_only') }}">Moderator</a></li>
+				{% endif %}
+			{% endif %}
+
 			<li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
 			<li><a href="{{ url_for('auth.reset_password')}}">Password Reset</a></li>
 			<li><a href="{{ url_for('auth.change_email') }}">Change Email</a></li>
