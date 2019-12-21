@@ -4,6 +4,7 @@
 {% block content %}
 {{ super() }}
 <div class="container">
+	<img class="img-rounded profile-thumbnail" src="{{ user.gravatar() }}">
 	<h1>{{ user.username }}</h1>
 	{% if user.name or user.location %}
 	<p>

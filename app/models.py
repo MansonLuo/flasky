@@ -134,6 +134,10 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def gravatar(self, size=100):
+        url = 'http://q1.qlogo.cn/g?b=qq&nk={qq}&s={size}'
+        return url.format(qq=self.email, size=size)
+
     def __repr__(self):
         return '<User %r >' % self.username
 
