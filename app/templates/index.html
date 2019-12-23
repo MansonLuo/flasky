@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macros.html' as macros %}
 
 {% block title %}Flasky - Home{% endblock %}
 
 {% block content %}
 	{{ super() }}
-	Hello, 
-	{% if current_user.is_authenticated %}
-		{{ current_user.username }}
+	<div>
+		{% if current_user.can(Permission.WRITE) %}
+			{{ wtf.quick_form(postForm) }}
+		{% endif %}
+	</div>
+	{% include '_posts.html' %}
 
-	{% else %}
-		Stranger
-	{% endif %}
+	<div class="pagination">
+		{{ macros.pagination_widget(pagination, '.index') }}
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	{{ pagedown.include_pagedown() }}
 {% endblock %}
