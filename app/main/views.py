@@ -107,3 +107,31 @@ def post(slug):
     post = Post.query.filter_by(slug=slug).first()
 
     return render_template('post.html', posts=[post])
+
+
+@main.route('/edit/<slug>', methods=['POST', 'GET'])
+@login_required
+def edit(slug):
+    post = Post.query.filter_by(slug=slug).first()
+    
+    if not post:
+        abort(404)
+
+    if current_user != post.author and \
+            not current_user.can(Permission.ADMIN):
+                abort(403)
+
+    form = PostForm()
+
+    if form.validate_on_submit():
+        post.body = form.body.data
+        db.session.add(post)
+        db.session.commit()
+
+        flash('The post has been updated.')
+
+        return redirect(url_for('.post', slug=post.slug))
+
+    form.body.data = post.body
+    
+    return render_template('edit_post.html', form=form)

@@ -31,6 +31,17 @@
 					Permalink
 					</span>
 				</a>
+
+				{% if current_user == post.author %}
+					<a href="{{ url_for('.edit', slug=post.slug) }}">
+						<span class="label label-primary">Edit</span>
+					</a>
+
+					{% elif current_user.is_administrator() %}
+						<a href="{{ url_for('.edit', slug=post.slug) }}">
+							<span class="label label-danger">Edit [Admin]</span>
+						</a>
+				{% endif %}
 			</div>
 			<br>
 		</li>
