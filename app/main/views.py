@@ -92,7 +92,7 @@ def edit_profile_admin(id):
         flash('The profile has been updated')
         return redirect(url_for('.user', username=user.username, user=user))
     form.email.data = user.email
-    form.username.data = user.username
+    form.username.data = user.usernames
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
     form.name.data = user.name
@@ -102,8 +102,8 @@ def edit_profile_admin(id):
     return render_template('edit_profile.html', form=form, user=user)
 
 
-@main.route('/post/<int:id>')
-def post(id):
-    post = Post.query.get_or_404(id)
+@main.route('/post/<slug>')
+def post(slug):
+    post = Post.query.filter_by(slug=slug).first()
 
     return render_template('post.html', posts=[post])

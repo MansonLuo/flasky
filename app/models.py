@@ -8,6 +8,7 @@ from . import db
 from datetime import datetime
 from markdown import markdown
 import bleach
+from bs4 import BeautifulSoup
 
 class Permission:
     FOLLOW = 1
@@ -165,6 +166,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     body_html = db.Column(db.Text)
+    slug = db.Column(db.Text, default="void")
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -172,6 +174,17 @@ class Post(db.Model):
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'), tags=allowed_tags, strip=True
         ))
+
+        #inital or change post.slug automatally
+        target.slug = target.get_slug()
+
+    def get_slug(self):
+        soup = BeautifulSoup(self.body_html, "html.parser")
+        
+        if soup.h1:
+            return soup.h1.text
+        else:
+            return soup.p.text.split('.')[0]
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
