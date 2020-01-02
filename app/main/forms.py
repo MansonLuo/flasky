@@ -2,14 +2,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from ..models import Role, User
+
 from wtforms.validators import ValidationError
 from flask_pagedown.fields import PageDownField
-
-class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
-    submit = SubmitField('submit')
+from werkzeug import secure_filename
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class EditProfileForm(FlaskForm):
+    avatar = FileField('Your Avatar', validators=[FileRequired(), FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Image only')])
     name = StringField('Real name', validators=[Length(0, 64)])
     location = StringField('Location', validators=[Length(0, 64)])
     about_me = TextAreaField('About me')

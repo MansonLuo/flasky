@@ -1,7 +1,22 @@
 import unittest
-from app.models import User, Permission, AnonymousUser
+from app.models import User, Permission, AnonymousUser, Role
+from flask import current_app
+from app import create_app, db
 
 class UserModelTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+        Role.insert_roles()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+
     def test_password_setter(self):
         u = User(password = 'cat')
         self.assertTrue(u.password_hash is not None)
@@ -48,3 +63,19 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.can(Permission.WRITE))
         self.assertFalse(u.can(Permission.MODERATE))
         self.assertFalse(u.can(Permission.ADMIN))
+
+    def test_follow_and_unfollow_user_using_is_folling_and_is_followed_byr(self):
+        u1 = User()
+        u2 = User()
+
+        u1.follow(u2)
+        db.session.add_all([u1, u2])
+        db.session.commit()
+
+        self.assertTrue(u1.is_following(u2))
+        self.assertTrue(u2.is_followed_by(u1))
+
+        u1.unfollow(u2)
+        db.session.commit()
+        self.assertFalse(u1.is_following(u2))
+
