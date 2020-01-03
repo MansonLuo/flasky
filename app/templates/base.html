@@ -30,7 +30,7 @@
 					<li><a href="{{ url_for('main.for_admins_only') }}">Administrator</a></li>
 			{% else %}
 				{% if current_user.can(Permission.MODERATE) %} 
-				<li><a href="{{ url_for('main.for_moderators_only') }}">Moderator</a></li>
+				<li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
 				{% endif %}
 			{% endif %}
 

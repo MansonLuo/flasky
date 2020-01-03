@@ -2,7 +2,7 @@ from random import randint
 from sqlalchemy.exc import IntegrityError
 from faker import Faker
 from . import db
-from .models import User, Post
+from .models import User, Post, Comment
 
 def users(count=100):
     fake = Faker()
@@ -35,3 +35,20 @@ def posts(count=100):
         db.session.add(p)
     db.session.commit()
 
+
+def comments(count=100):   # give 100 comments for each post owned by each user
+    fake = Faker()
+    user_count = User.query.count()
+
+    for i in range(count):
+        u = User.query.offset(randint(0, user_count - 1)).first()
+
+        for p in u.posts.all():
+            for i in range(40):  # generate 40 comments for each post
+                comment_maker = User.query.offset(randint(0, user_count - 1)).first()
+                comment = Comment(body=fake.text(), post=p, author=comment_maker)
+
+                db.session.add(comment)
+
+            db.session.commit()
+    
