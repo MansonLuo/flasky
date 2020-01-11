@@ -1,0 +1,14 @@
+flask
+flask-bootstrap
+flask-moment
+flask-wtf
+flask-sqlalchemy
+flask-email
+flask-migrate
+flask-login
+faker
+flask-pagedown
+markdown
+bleach
+flask-httpauth
+httpie
