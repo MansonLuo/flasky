@@ -32,4 +32,4 @@ def context_processer():
 """  
 
 if '__main__' == __name__:
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0", ssl_context='adhoc')
