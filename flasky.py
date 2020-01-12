@@ -6,6 +6,7 @@ import os
 import sys
 import click
 
+# Add code coverage support
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
