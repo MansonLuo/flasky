@@ -47,7 +47,7 @@ def new_post():
     return jsonify(post.to_json()), 201, \
             {'Location': url_for('api.get_post', id=post.id)}
 
-@api.route('/posts/<int:id>', methods=['EDIT'])
+@api.route('/posts/<int:id>', methods=['PUT'])
 @permission_required(Permission.WRITE)
 def edit_post(id):
     post = Post.query.get_or_404(id)

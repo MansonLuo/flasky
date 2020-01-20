@@ -18,11 +18,11 @@ def get_user_posts(id):
     posts = pagination.items
 
     prev = None
-    if pagination.has_prev():
+    if pagination.has_prev:
         prev = url_for('api.get_user_posts', id=id, page=page-1)
 
     next = None
-    if pagination.has_next():
+    if pagination.has_next:
         next = url_for('api.get_user_posts', id=id, page=page+1)
 
     return jsonify({
@@ -32,7 +32,7 @@ def get_user_posts(id):
         'count': pagination.total
     })
 
-@api.route('/user/<int:id>/timeline/')
+@api.route('/users/<int:id>/timeline/')
 def get_user_followed_posts(id):
     user = User.query.get_or_404(id)
 
@@ -43,11 +43,11 @@ def get_user_followed_posts(id):
     posts = pagination.items
 
     prev = None
-    if pagination.has_prev():
+    if pagination.has_prev:
         prev = url_for('api.get_user_followed_posts', id=id, page=page-1)
 
     next = None
-    if pagination.has_next():
+    if pagination.has_next:
         next = url_for('api.get_user_followed_posts', id=id, page=page+1)
 
     return jsonify({
