@@ -12,3 +12,4 @@ markdown
 bleach
 flask-httpauth
 httpie
+coverage

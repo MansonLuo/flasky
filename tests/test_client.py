@@ -28,9 +28,11 @@ class FlaskClientTestCase(unittest.TestCase):
             'email': '1558911620@qq.com',
             'username': 'ml',
             'password': 'cat',
-            'password': 'cat'
+            'password2': 'cat'
         })
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(User.query.count() == 0)
+        self.assertTrue(User.query.filter_by(username='ml').first())
 
 
         # log in with the new account
