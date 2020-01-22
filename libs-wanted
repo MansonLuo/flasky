@@ -13,3 +13,6 @@ bleach
 flask-httpauth
 httpie
 coverage
+selenium
+geckodriver
+chromedriver
