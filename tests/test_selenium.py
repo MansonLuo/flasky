@@ -13,14 +13,17 @@ class SeleniumTestCase(unittest.TestCase):
     def setUpClass(cls):
         # start Chrome
         options = webdriver.ChromeOptions()
-        options.add_argument('headless')
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
         try:
-            cls.client = webdriver.Chrome(chrome_options=options)
+            cls.client = webdriver.Chrome('/usr/bin/chromedriver', chrome_options=options)
         except:
             pass
 
         # skip these tests if the browser could not be started
         if cls.client:
+            print('browser has been started')
             # create the application
             cls.app = create_app('testing')
             cls.app_context = cls.app.app_context()
