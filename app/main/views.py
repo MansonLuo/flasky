@@ -8,6 +8,7 @@ from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
 from werkzeug import secure_filename
 import os
+from flask_sqlalchemy import get_debug_queries
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -291,3 +292,12 @@ def server_shutdown():
     shutdown()
     return 'Shutting down...'
 
+
+@main.after_app_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= current_app.config['FLASKY_SLOW_DB_QUERY_TIME']:
+            current_app.logger.warning(
+                    'Slow query %s\nParameters: %s\nDuration: %fs\nContext: %s\n' % (query.statement, query.parameters, query.duration, query.context))
+
+    return response
