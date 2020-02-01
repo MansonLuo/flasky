@@ -130,7 +130,7 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     @staticmethod
-    def add_self_followers():
+    def add_self_follows():
         for user in User.query.all():
             user.follow(user)
             db.session.add(user)

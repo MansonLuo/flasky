@@ -5,6 +5,7 @@ from app.fake import users, posts, comments
 import os
 import sys
 import click
+from  flask_migrate import upgrade
 
 # Add code coverage support
 COV = None
@@ -52,5 +53,18 @@ def test(coverage):
 
         COV.erase()
 
+
+@app.cli.command()
+def deploy():
+    """ Run deployment tasks."""
+    # migrate database to a latest version
+    upgrade()
+
+    # create or update user roles
+    Role.insert_roles()
+
+    # ensure all users are flollowing themselves
+    User.add_self_follows()
+
 if '__main__' == __name__:
-    app.run(debug=False, host="0.0.0.0") #ssl_context='adhoc')
+    app.run(debug=False, host="0.0.0.0", port="5000") #ssl_context='adhoc')
